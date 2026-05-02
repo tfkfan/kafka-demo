@@ -3,19 +3,30 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "a1",
+  "name": "postgresql-sink",
   "config": {
-    "name":"a1",
-    "connector.class": "io.aiven.kafka.connect.opensearch.OpensearchSinkConnector",
-    "topics": "test_topic",
-    "connection.url": "http://opensearch:9200",
-    "type.name": "test_topic",
-    "tasks.max":"1",
-    "key.ignore": "false",
-    "value.ignore": "false",
-    "schema.ignore": "false",
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+    "topics": "summary-last-week",
+    "connection.url": "jdbc:postgresql://postgresql:5432/devdb",
+    "connection.user": "postgres",
+    "connection.password": "postgres",
+    "table.name.format": "weekly_summary",
+    "auto.create": "true",
+    "insert.mode": "upsert",
+    "pk.mode": "record_key",
+    "pk.fields": "user_id",
+    "transforms": "hoistKey,hoistValue",
+
+    "transforms.hoistKey.type": "org.apache.kafka.connect.transforms.HoistField$Key",
+    "transforms.hoistKey.field": "user_id",
+
+    "transforms.hoistValue.type": "org.apache.kafka.connect.transforms.HoistField$Value",
+    "transforms.hoistValue.field": "amount",
+
+    "value.converter": "org.apache.kafka.connect.converters.DoubleConverter",
+    "value.converter.schemas.enable": "false",
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
-    "value.converter": "io.confluent.connect.avro.AvroConverter",
-    "value.converter.schema.registry.url": "http://schema-registry:8081"
+    "key.converter.schemas.enable": "false"
   }
 }

@@ -54,12 +54,16 @@ services:
       KAFKA_DEFAULT_REPLICATION_FACTOR: 1
       CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
   connect:
-    image: confluentinc/cp-kafka-connect:6.2.15
+    image: confluentinc/cp-kafka-connect:5.5.12
     depends_on:
       - kafka
       - schema-registry
     ports:
       - "8083:8083"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
     environment:
       CONNECT_BOOTSTRAP_SERVERS: 'kafka:9092'
       CONNECT_REST_ADVERTISED_HOST_NAME: connect

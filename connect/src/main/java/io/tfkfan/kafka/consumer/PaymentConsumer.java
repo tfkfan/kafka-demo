@@ -8,8 +8,6 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 public class PaymentConsumer {
     private final PaymentRepository paymentRepository;
@@ -19,7 +17,7 @@ public class PaymentConsumer {
     }
 
     @KafkaListener(topics = Topics.SUMMARY_LAST_WEEK, groupId = "payments_summary_fetcher")
-    public void consume(@Payload String value, @Header(KafkaHeaders.RECEIVED_KEY) String key) {
-        paymentRepository.saveWeeklyReport(UUID.fromString(key), Double.parseDouble(value));
+    public void consume(@Payload Double value, @Header(KafkaHeaders.RECEIVED_KEY) String key) {
+        paymentRepository.saveWeeklyReport(key, value);
     }
 }

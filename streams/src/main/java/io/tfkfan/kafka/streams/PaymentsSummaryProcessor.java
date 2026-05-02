@@ -26,12 +26,11 @@ public class PaymentsSummaryProcessor {
 
         aggregatedSums
                 .toStream()
-                .map((windowedKey, sum) -> new KeyValue<>(windowedKey.key(), sum.toString()))
-                .to(Topics.SUMMARY_LAST_WEEK, Produced.valueSerde(Serdes.String()));
+                .map((windowedKey, sum) -> new KeyValue<>(windowedKey.key(), sum))
+                .to(Topics.SUMMARY_LAST_WEEK, Produced.valueSerde(Serdes.Double()));
     }
 
     public Double apply(String key, Payment payment, Double aggregate) {
         return aggregate + payment.getAmount();
     }
-
 }
