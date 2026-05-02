@@ -40,7 +40,6 @@ public class Application implements CommandLineRunner {
                 .setCreatedAt(System.currentTimeMillis())
                 .build();
 
-
         messageProducer.send("payments_topic", p1.getFrom().toString(), p1);
         messageProducer.send("payments_topic", p2.getFrom().toString(), p2);
     }

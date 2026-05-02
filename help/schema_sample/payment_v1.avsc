@@ -1,0 +1,23 @@
+{
+  "namespace": "io.tfkfan.generated",
+  "type": "record",
+  "name": "Payment",
+  "fields": [{
+      "name": "transactionId",
+      "type": {"type": "string", "logicalType": "uuid"}
+    }, {
+      "name": "amount",
+      "type": "double"
+    }, {
+      "name": "from",
+      "type": {"type": "string", "logicalType": "uuid"}
+    }, {
+      "name": "to",
+      "type": {"type": "string", "logicalType": "uuid"}
+    }
+  ]
+}
+
+
+
+

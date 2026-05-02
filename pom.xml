@@ -18,6 +18,8 @@
 
     <modules>
         <module>streams</module>
+        <module>connect</module>
+        <module>schema</module>
     </modules>
 
     <properties>

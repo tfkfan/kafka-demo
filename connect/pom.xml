@@ -7,10 +7,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>streams</artifactId>
+    <artifactId>connect</artifactId>
     <packaging>jar</packaging>
 
-    <name>streams</name>
+    <name>connect</name>
     <url>http://maven.apache.org</url>
 
     <properties>
