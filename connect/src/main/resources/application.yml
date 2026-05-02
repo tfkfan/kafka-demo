@@ -10,11 +10,12 @@ spring:
       - localhost:9094
     consumer:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       group-id: ${spring.application.name}
       properties:
         specific.avro.reader: true
         schema.registry.url: http://localhost:8081
+      auto-offset-reset: earliest
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
@@ -28,4 +29,7 @@ spring:
         default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
         default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
         schema.registry.url: http://localhost:8081
-
+  datasource:
+    url: jdbc:postgresql://localhost:5432/devdb
+    username: postgres
+    password: postgres
