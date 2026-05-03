@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import io.tfkfan.kafka.streams.MessageProducer;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @SpringBootApplication
 public class Application implements CommandLineRunner {
-    private final MessageProducer messageProducer;
+    private final KafkaTemplate<String, Payment> paymentTemplate;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -40,7 +40,7 @@ public class Application implements CommandLineRunner {
                 .setCreatedAt(System.currentTimeMillis())
                 .build();
 
-        messageProducer.send(Topics.PAYMENTS, p1.getFrom().toString(), p1);
-        messageProducer.send(Topics.PAYMENTS, p2.getFrom().toString(), p2);
+        paymentTemplate.send(Topics.PAYMENTS, p1.getFrom().toString(), p1);
+        paymentTemplate.send(Topics.PAYMENTS, p2.getFrom().toString(), p2);
     }
 }

@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: streams-binder-app
+  cloud:
+    function:
+      definition: processPayments;producePayments
+    stream:
+      bindings:
+        processPayments-in-0:
+          destination: payments
+          group: payments-processor-group
+          consumer:
+            use-native-decoding: true
+        processPayments-out-0:
+          destination: summary-last-week
+          producer:
+            use-native-encoding: true
+        producePayments-out-0:
+          destination: payments
+          producer:
+            use-native-encoding: true
+      kafka:
+        bindings:
+          producePayments-out-0:
+            producer:
+              configuration:
+                schema.registry.url: http://localhost:8081
+                key.serializer: org.apache.kafka.common.serialization.StringSerializer
+                value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+          processPayments-out-0:
+            producer:
+              configuration:
+                schema.registry.url: http://localhost:8081
+                key.serializer: org.apache.kafka.common.serialization.StringSerializer
+                value.serializer: org.apache.kafka.common.serialization.DoubleSerializer
+          processPayments-in-0:
+            consumer:
+              configuration:
+                schema.registry.url: http://localhost:8081
+                key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+                value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+        binder:
+          brokers: localhost:9094
+        streams:
+          binder:
+            configuration:
+              schema.registry.url: http://localhost:8081
+              auto-offset-reset: earliest
+              specific.avro.reader: true
+
