@@ -6,11 +6,13 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 
 @Component
+@ConditionalOnProperty(prefix = "app.streams",name = "enabled", havingValue = "true")
 public class PaymentsSummaryProcessor {
 
     @Autowired

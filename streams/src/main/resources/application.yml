@@ -1,3 +1,4 @@
+app.streams.enabled: false
 spring:
   application:
     name: streams-app

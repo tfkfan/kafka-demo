@@ -18,6 +18,9 @@ spring:
         producePayments-out-0:
           destination: payments
           producer:
+            poller:
+              fixed-delay: 5000 # Send every 5 seconds
+              initial-delay: 1000 # Start after 1 second
             use-native-encoding: true
       kafka:
         bindings:
